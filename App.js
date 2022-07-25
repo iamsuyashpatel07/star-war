@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Bar2 from "./component/Bar2";
 import List from "./component/List";
 
 const windowWidth = Dimensions.get("window").width;
@@ -16,6 +17,7 @@ export default function App() {
     >
       <StatusBar />
       <View style={styles.list}>
+        <Bar2 />
         <List />
       </View>
     </LinearGradient>
