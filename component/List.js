@@ -28,7 +28,7 @@ function nFormatter(num, digits) {
     : "0";
 }
 
-const DATA = Planet;
+const DATA = Planet.results;
 const Item = ({ item }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
