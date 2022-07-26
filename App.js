@@ -15,17 +15,16 @@ import Filter from "./icon/Filter";
 import Moon from "./icon/Moon";
 import Magnifying from "./icon/Magnifying";
 import Sun from "./icon/Sun";
+import { BottomSheet } from "react-native-btr";
+import FilterFunction from "./component/FilterFunction";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function App() {
-  const [themeColor, setThemeColor] = useState([
-    "#D16BA5",
-    "#86A8E7",
-    "#5FFBF1",
-  ]);
+  const [themeColor, setThemeColor] = useState(["#E78786", "#BD1DD8"]);
   const [theme, setTheme] = useState(true);
+  const [visible, setVisible] = useState(false);
   function ChangeTheme() {
     if (theme === true) {
       setTheme(false);
@@ -35,43 +34,62 @@ export default function App() {
       setThemeColor(["#E78786", "#BD1DD8"]);
     }
   }
+  function toggleBottomNavigationView() {
+    if (visible === false) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  }
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={themeColor}
-      style={styles.linearGradient}
-    >
-      <StatusBar />
-      <View style={styles.list}>
-        {/* header Start */}
-        <View style={styles.header}>
-          <View>
-            <Text style={{ fontSize: 22, fontWeight: "bold" }}>Planet</Text>
+    <>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={themeColor}
+        style={styles.linearGradient}
+      >
+        <StatusBar />
+        <View style={styles.list}>
+          {/* header Start */}
+          <View style={styles.header}>
+            <View>
+              <Text style={{ fontSize: 22, fontWeight: "bold" }}>Planet</Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <View>
+                <Pressable onPress={ChangeTheme}>
+                  {!theme ? <Sun /> : <Moon />}
+                </Pressable>
+              </View>
+              <View>
+                <Magnifying />
+              </View>
+              <View>
+                <Pressable onPress={toggleBottomNavigationView}>
+                  <Filter />
+                </Pressable>
+              </View>
+            </View>
+            {/* Header end */}
           </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View>
-              <Pressable onPress={ChangeTheme}>
-                {!theme ? <Sun /> : <Moon />}
-              </Pressable>
-            </View>
-            <View>
-              <Magnifying />
-            </View>
-            <View>
-              <Filter />
-            </View>
+          <Bar2 />
+          <View style={{ height: windowHeight / 1.2 }}>
+            <List />
           </View>
-          {/* Header end */}
         </View>
-        <Bar2 />
-        <View style={{ height: windowHeight / 1.2 }}>
-          <List />
-        </View>
-      </View>
-    </LinearGradient>
+      </LinearGradient>
+      <BottomSheet
+        visible={visible}
+        height={200}
+        onBackButtonPress={toggleBottomNavigationView}
+        onBackdropPress={toggleBottomNavigationView}
+      >
+        <FilterFunction />
+      </BottomSheet>
+    </>
   );
 }
 
@@ -93,5 +111,11 @@ const styles = StyleSheet.create({
   list: {
     paddingTop: windowHeight / 8,
     paddingBottom: windowHeight / 16,
+  },
+  bottomsheet: {
+    backgroundColor: "white",
+    height: windowHeight / 3,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
