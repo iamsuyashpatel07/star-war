@@ -7,6 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
   Pressable,
+  TextInput,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Bar2 from "./component/Bar2";
@@ -22,8 +26,10 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function App() {
+  const [number, onChangeNumber] = useState(null);
   const [themeColor, setThemeColor] = useState(["#E78786", "#BD1DD8"]);
   const [theme, setTheme] = useState(true);
+  const [searchBox, setSearchBox] = useState(true);
   const [visible, setVisible] = useState(false);
   function ChangeTheme() {
     if (theme === true) {
@@ -41,6 +47,13 @@ export default function App() {
       setVisible(false);
     }
   }
+  function searchQuery() {
+    if (searchBox === true) {
+      setSearchBox(false);
+    } else {
+      setSearchBox(true);
+    }
+  }
   return (
     <>
       <LinearGradient
@@ -50,31 +63,56 @@ export default function App() {
         style={styles.linearGradient}
       >
         <StatusBar />
+
         <View style={styles.list}>
           {/* header Start */}
-          <View style={styles.header}>
-            <View>
-              <Text style={{ fontSize: 22, fontWeight: "bold" }}>Planet</Text>
-            </View>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
+          {!searchBox ? (
+            <View style={styles.header}>
               <View>
-                <Pressable onPress={ChangeTheme}>
-                  {!theme ? <Sun /> : <Moon />}
+                <Text style={{ fontSize: 22, fontWeight: "bold" }}>Planet</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View>
+                  <Pressable onPress={ChangeTheme}>
+                    {!theme ? <Sun /> : <Moon />}
+                  </Pressable>
+                </View>
+                <Pressable onPress={searchQuery}>
+                  <Magnifying />
                 </Pressable>
+                <View>
+                  <Pressable onPress={toggleBottomNavigationView}>
+                    <Filter />
+                  </Pressable>
+                </View>
               </View>
-              <View>
-                <Magnifying />
-              </View>
-              <View>
-                <Pressable onPress={toggleBottomNavigationView}>
-                  <Filter />
-                </Pressable>
-              </View>
+              {/* Header end */}
             </View>
-            {/* Header end */}
-          </View>
+          ) : (
+            <View style={styles.header}>
+              <KeyboardAvoidingView>
+                <ScrollView>
+                  <SafeAreaView style={styles.input}>
+                    <Magnifying />
+                    <TextInput
+                      onChangeText={onChangeNumber}
+                      value={number}
+                      placeholder="search"
+                      keyboardType="text"
+                    />
+                  </SafeAreaView>
+                </ScrollView>
+              </KeyboardAvoidingView>
+              <Pressable onPress={searchQuery}>
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>Cancel</Text>
+              </Pressable>
+            </View>
+          )}
           <Bar2 />
           <View style={{ height: windowHeight / 1.2 }}>
             <List />
@@ -117,5 +155,14 @@ const styles = StyleSheet.create({
     height: windowHeight / 3,
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    height: 40,
+    width: windowWidth / 1.5,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 20,
+    padding: 10,
+    flexDirection: "row",
   },
 });
