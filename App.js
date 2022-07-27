@@ -29,7 +29,7 @@ export default function App() {
   const [number, onChangeNumber] = useState(null);
   const [themeColor, setThemeColor] = useState(["#E78786", "#BD1DD8"]);
   const [theme, setTheme] = useState(true);
-  const [searchBox, setSearchBox] = useState(true);
+  const [searchBox, setSearchBox] = useState(false);
   const [visible, setVisible] = useState(false);
   function ChangeTheme() {
     if (theme === true) {
@@ -115,7 +115,7 @@ export default function App() {
           )}
           <Bar2 />
           <View style={{ height: windowHeight / 1.2 }}>
-            <List />
+            <List value={number} />
           </View>
         </View>
       </LinearGradient>

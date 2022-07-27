@@ -28,7 +28,6 @@ function nFormatter(num, digits) {
     : "0";
 }
 
-const DATA = Planet.results;
 const Item = ({ item }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
@@ -72,9 +71,18 @@ const Item = ({ item }) => (
   </LinearGradient>
 );
 
-const List = () => {
-  const renderItem = ({ item }) => <Item item={item} />;
-
+const List = ({ value }) => {
+  let DATA;
+  let renderItem;
+  if (value === null) {
+    DATA = Planet.results;
+    renderItem = ({ item }) => <Item item={item} />;
+  } else {
+    DATA = Planet.results.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    renderItem = ({ item }) => <Item item={item} />;
+  }
   return (
     <SafeAreaView>
       <FlatList
