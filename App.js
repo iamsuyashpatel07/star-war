@@ -14,13 +14,12 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Bar2 from "./component/Bar2";
-import List from "./component/List";
+import { List, FilterFunction } from "./component/List";
 import Filter from "./icon/Filter";
 import Moon from "./icon/Moon";
 import Magnifying from "./icon/Magnifying";
 import Sun from "./icon/Sun";
 import { BottomSheet } from "react-native-btr";
-import FilterFunction from "./component/FilterFunction";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -31,6 +30,7 @@ export default function App() {
   const [theme, setTheme] = useState(true);
   const [searchBox, setSearchBox] = useState(false);
   const [visible, setVisible] = useState(false);
+
   function ChangeTheme() {
     if (theme === true) {
       setTheme(false);

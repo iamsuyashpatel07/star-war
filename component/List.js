@@ -1,10 +1,21 @@
-import React from "react";
-import { SafeAreaView, View, FlatList, StyleSheet, Text } from "react-native";
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  Dimensions,
+} from "react-native";
 import Planet from "../api/Planets.json";
 import LinearGradient from "react-native-linear-gradient";
 import Sun from "../icon/Sun";
 import People from "../icon/People";
 import Terrain from "../icon/Terrain";
+import DropDownPicker from "react-native-dropdown-picker";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 function nFormatter(num, digits) {
   const lookup = [
@@ -71,7 +82,7 @@ const Item = ({ item }) => (
   </LinearGradient>
 );
 
-const List = ({ value }) => {
+export const List = ({ value }) => {
   let DATA;
   let renderItem;
   if (value === null) {
@@ -93,6 +104,33 @@ const List = ({ value }) => {
     </SafeAreaView>
   );
 };
+export const FilterFunction = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([]);
+  let climate = [];
+  Planet.results.forEach((item) => climate.push({ label: item.climate }));
+  let filterClimate = climate.filter((obj, index, arr) => {
+    return arr.map((mapObj) => mapObj.label).indexOf(obj.label) == index;
+  });
+  const [items, setItems] = useState(filterClimate);
+  return (
+    <View style={styles.bottomsheet}>
+      <View style={{ width: windowWidth / 1.2 }}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          theme="DARK"
+          multiple={true}
+          mode="BADGE"
+        />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   item: {
@@ -112,6 +150,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontStyle: "italic",
   },
+  bottomsheet: {
+    backgroundColor: "white",
+    height: windowHeight / 3,
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "bold",
+  },
 });
-
-export default List;
