@@ -127,7 +127,7 @@ export default function App() {
         onBackButtonPress={toggleBottomNavigationView}
         onBackdropPress={toggleBottomNavigationView}
       >
-        <FilterFunction />
+        <FilterFunction setVisible={setVisible} />
       </BottomSheet>
     </>
   );

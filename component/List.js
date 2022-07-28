@@ -87,22 +87,43 @@ const Item = ({ item }) => (
 
 renderItem = ({ item }) => <Item item={item} />;
 
-export const FilterFunction = () => {
+export const FilterFunction = ({ setVisible }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [tvalue, setTvalue] = useState(null);
+  const [topen, setTopen] = useState(false);
   let climate = [];
-  Planet.results.forEach((item) =>
-    climate.push({ label: item.climate, value: item.climate })
-  );
+  let terrain = [];
+  Planet.results.forEach((item) => {
+    climate.push({ label: item.climate, value: item.climate });
+    let sz = item.residents;
+    let terrainSize = sz.length;
+    terrain.push({
+      label: terrainSize,
+      value: terrainSize,
+    });
+  });
   let filterClimate = climate.filter((obj, index, arr) => {
     return arr.map((mapObj) => mapObj.label).indexOf(obj.label) == index;
   });
+  let filterTerrain = terrain.filter((obj, index, arr) => {
+    return arr.map((mapObj) => mapObj.label).indexOf(obj.label) == index;
+  });
   const [items, setItems] = useState(filterClimate);
-
+  const [fterrain, setFterrain] = useState(filterTerrain);
   function filterData() {
-    console.log(value);
+    if (value !== null && tvalue !== null) {
+      DATA = Planet.results.filter(
+        (item) => item.climate === value && item.residents.length === tvalue
+      );
+      renderItem = ({ item }) => <Item item={item} />;
+    }
     if (value !== null) {
       DATA = Planet.results.filter((item) => item.climate === value);
+      renderItem = ({ item }) => <Item item={item} />;
+    }
+    if (tvalue !== null) {
+      DATA = Planet.results.filter((item) => item.residents.length === tvalue);
       renderItem = ({ item }) => <Item item={item} />;
     }
   }
@@ -118,6 +139,16 @@ export const FilterFunction = () => {
           setItems={setItems}
           theme="DARK"
         />
+        <DropDownPicker
+          open={topen}
+          value={tvalue}
+          items={fterrain}
+          setOpen={setTopen}
+          setValue={setTvalue}
+          setItems={setFterrain}
+          theme="DARK"
+          style={{ marginTop: 5, marginBottom: 5 }}
+        />
         <Pressable
           style={{
             padding: 10,
@@ -128,7 +159,10 @@ export const FilterFunction = () => {
             borderRadius: 10,
             alignSelf: "center",
           }}
-          onPress={() => filterData()}
+          onPress={() => {
+            filterData();
+            setVisible(false);
+          }}
         >
           <Text style={{ color: "skyblue", fontSize: 15, textAlign: "center" }}>
             Filter
