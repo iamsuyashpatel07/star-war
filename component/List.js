@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   Dimensions,
+  Pressable,
 } from "react-native";
 import Planet from "../api/Planets.json";
 import LinearGradient from "react-native-linear-gradient";
@@ -38,7 +39,59 @@ function nFormatter(num, digits) {
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
     : "0";
 }
+let DATA = Planet.results;
+let renderItem;
+export const FilterFunction = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  let climate = [];
+  Planet.results.forEach((item) =>
+    climate.push({ label: item.climate, value: item.climate })
+  );
+  let filterClimate = climate.filter((obj, index, arr) => {
+    return arr.map((mapObj) => mapObj.label).indexOf(obj.label) == index;
+  });
+  const [items, setItems] = useState(filterClimate);
 
+  function filterData() {
+    console.log(value);
+    if (value !== null) {
+      DATA = Planet.results.filter((item) => item.climate === value);
+      renderItem = ({ item }) => <Item item={item} />;
+    }
+  }
+  return (
+    <View style={styles.bottomsheet}>
+      <View style={{ width: windowWidth / 1.2 }}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          theme="DARK"
+        />
+        <Pressable
+          style={{
+            padding: 10,
+            backgroundColor: "gray",
+            margin: 10,
+            border: 1,
+            borderColor: "black",
+            borderRadius: 10,
+            alignSelf: "center",
+          }}
+          onPress={() => filterData()}
+        >
+          <Text style={{ color: "skyblue", fontSize: 15, textAlign: "center" }}>
+            Filter
+          </Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+};
 const Item = ({ item }) => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
@@ -83,12 +136,7 @@ const Item = ({ item }) => (
 );
 
 export const List = ({ value }) => {
-  let DATA;
-  let renderItem;
-  if (value === null) {
-    DATA = Planet.results;
-    renderItem = ({ item }) => <Item item={item} />;
-  } else {
+  if (value !== "") {
     DATA = Planet.results.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
@@ -102,33 +150,6 @@ export const List = ({ value }) => {
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
-  );
-};
-export const FilterFunction = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
-  let climate = [];
-  Planet.results.forEach((item) => climate.push({ label: item.climate }));
-  let filterClimate = climate.filter((obj, index, arr) => {
-    return arr.map((mapObj) => mapObj.label).indexOf(obj.label) == index;
-  });
-  const [items, setItems] = useState(filterClimate);
-  return (
-    <View style={styles.bottomsheet}>
-      <View style={{ width: windowWidth / 1.2 }}>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          theme="DARK"
-          multiple={true}
-          mode="BADGE"
-        />
-      </View>
-    </View>
   );
 };
 

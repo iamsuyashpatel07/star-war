@@ -25,7 +25,7 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 export default function App() {
-  const [number, onChangeNumber] = useState(null);
+  const [number, onChangeNumber] = useState("");
   const [themeColor, setThemeColor] = useState(["#E78786", "#BD1DD8"]);
   const [theme, setTheme] = useState(true);
   const [searchBox, setSearchBox] = useState(false);
@@ -48,6 +48,7 @@ export default function App() {
     }
   }
   function searchQuery() {
+    onChangeNumber("");
     if (searchBox === true) {
       setSearchBox(false);
     } else {
