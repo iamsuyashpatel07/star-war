@@ -103,6 +103,7 @@ export default function App() {
                     <TextInput
                       onChangeText={onChangeNumber}
                       value={number}
+                      autoFocus={true}
                       placeholder="search"
                       keyboardType="text"
                     />
