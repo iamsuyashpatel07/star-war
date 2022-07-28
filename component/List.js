@@ -41,6 +41,52 @@ function nFormatter(num, digits) {
 }
 let DATA = Planet.results;
 let renderItem;
+
+const Item = ({ item }) => (
+  <LinearGradient
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
+    colors={["#9400D3", "#86A8F4"]}
+    style={styles.item}
+  >
+    <View>
+      <Text style={styles.title}>{item.name}</Text>
+      <Text
+        style={{
+          fontSize: 13,
+          color: "white",
+          fontStyle: "italic",
+        }}
+      >
+        {item.terrain}
+      </Text>
+    </View>
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 8,
+      }}
+    >
+      <View style={{ flexDirection: "row" }}>
+        <Terrain />
+        <Text style={styles.detail}>{item.residents.length}</Text>
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <Sun />
+        <Text style={styles.detail}>{item.climate}</Text>
+      </View>
+
+      <View style={{ flexDirection: "row" }}>
+        <People />
+        <Text style={styles.detail}>{nFormatter(item.population, 1)}</Text>
+      </View>
+    </View>
+  </LinearGradient>
+);
+
+renderItem = ({ item }) => <Item item={item} />;
+
 export const FilterFunction = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -92,48 +138,6 @@ export const FilterFunction = () => {
     </View>
   );
 };
-const Item = ({ item }) => (
-  <LinearGradient
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    colors={["#9400D3", "#86A8F4"]}
-    style={styles.item}
-  >
-    <View>
-      <Text style={styles.title}>{item.name}</Text>
-      <Text
-        style={{
-          fontSize: 13,
-          color: "white",
-          fontStyle: "italic",
-        }}
-      >
-        {item.terrain}
-      </Text>
-    </View>
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 8,
-      }}
-    >
-      <View style={{ flexDirection: "row" }}>
-        <Terrain />
-        <Text style={styles.detail}>{item.residents.length}</Text>
-      </View>
-      <View style={{ flexDirection: "row" }}>
-        <Sun />
-        <Text style={styles.detail}>{item.climate}</Text>
-      </View>
-
-      <View style={{ flexDirection: "row" }}>
-        <People />
-        <Text style={styles.detail}>{nFormatter(item.population, 1)}</Text>
-      </View>
-    </View>
-  </LinearGradient>
-);
 
 export const List = ({ value }) => {
   if (value !== "") {
