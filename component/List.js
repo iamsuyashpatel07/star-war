@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import Planet from "../api/Planets.json";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 import Sun from "../icon/Sun";
 import People from "../icon/People";
 import Terrain from "../icon/Terrain";
