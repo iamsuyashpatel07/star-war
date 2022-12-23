@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import LinearGradient from "react-native-linear-gradient";
 import Bar2 from "./component/Bar2";
 import { List, FilterFunction } from "./component/List";
 import Filter from "./icon/Filter";

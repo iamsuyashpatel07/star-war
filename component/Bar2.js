@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
-import { LinearGradient } from "expo-linear-gradient";
+import LinearGradient from "react-native-linear-gradient";
 import Sun from "../icon/Sun";
 import People from "../icon/People";
 import Terrain from "../icon/Terrain";
