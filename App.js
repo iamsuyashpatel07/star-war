@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,22 +11,22 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
-} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import Bar2 from "./component/Bar2";
-import { List, FilterFunction } from "./component/List";
-import Filter from "./icon/Filter";
-import Moon from "./icon/Moon";
-import Magnifying from "./icon/Magnifying";
-import Sun from "./icon/Sun";
-import { BottomSheet } from "react-native-btr";
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Bar2 from './component/Bar2';
+import { List, FilterFunction } from './component/List';
+import Filter from './icon/Filter';
+import Moon from './icon/Moon';
+import Magnifying from './icon/Magnifying';
+import Sun from './icon/Sun';
+import { BottomSheet } from 'react-native-btr';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function App() {
-  const [number, onChangeNumber] = useState("");
-  const [themeColor, setThemeColor] = useState(["#E78786", "#BD1DD8"]);
+  const [number, onChangeNumber] = useState('');
+  const [themeColor, setThemeColor] = useState(['#E78786', '#BD1DD8']);
   const [theme, setTheme] = useState(true);
   const [searchBox, setSearchBox] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -34,10 +34,10 @@ export default function App() {
   function ChangeTheme() {
     if (theme === true) {
       setTheme(false);
-      setThemeColor(["#D16BA5", "#86A8E7", "#5FFBF1"]);
+      setThemeColor(['#D16BA5', '#86A8E7', '#5FFBF1']);
     } else {
       setTheme(true);
-      setThemeColor(["#E78786", "#BD1DD8"]);
+      setThemeColor(['#E78786', '#BD1DD8']);
     }
   }
   function toggleBottomNavigationView() {
@@ -48,7 +48,7 @@ export default function App() {
     }
   }
   function searchQuery() {
-    onChangeNumber("");
+    onChangeNumber('');
     if (searchBox === true) {
       setSearchBox(false);
     } else {
@@ -61,8 +61,7 @@ export default function App() {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         colors={themeColor}
-        style={styles.linearGradient}
-      >
+        style={styles.linearGradient}>
         <StatusBar />
 
         <View style={styles.list}>
@@ -70,14 +69,13 @@ export default function App() {
           {!searchBox ? (
             <View style={styles.header}>
               <View>
-                <Text style={{ fontSize: 22, fontWeight: "bold" }}>Planet</Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Planet</Text>
               </View>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
                 <View>
                   <Pressable onPress={ChangeTheme}>
                     {!theme ? <Sun /> : <Moon />}
@@ -104,14 +102,14 @@ export default function App() {
                       onChangeText={onChangeNumber}
                       value={number}
                       autoFocus={true}
-                      placeholder="search"
-                      keyboardType="text"
+                      placeholder='search'
+                      keyboardType='text'
                     />
                   </SafeAreaView>
                 </ScrollView>
               </KeyboardAvoidingView>
               <Pressable onPress={searchQuery}>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>Cancel</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Cancel</Text>
               </Pressable>
             </View>
           )}
@@ -125,8 +123,7 @@ export default function App() {
         visible={visible}
         height={200}
         onBackButtonPress={toggleBottomNavigationView}
-        onBackdropPress={toggleBottomNavigationView}
-      >
+        onBackdropPress={toggleBottomNavigationView}>
         <FilterFunction setVisible={setVisible} />
       </BottomSheet>
     </>
@@ -138,33 +135,33 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 16,
     padding: 6,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderRadius: 20,
   },
   linearGradient: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     height: windowHeight,
     width: windowWidth,
   },
   list: {
     paddingTop: windowHeight / 8,
-    paddingBottom: windowHeight / 16,
+    paddingBottom: windowHeight / 18,
   },
   bottomsheet: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     height: windowHeight / 3,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
     height: 40,
     width: windowWidth / 1.5,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderRadius: 20,
     padding: 10,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });
